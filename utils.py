@@ -10,8 +10,52 @@
 #-------------------------------------------------------------------------------
 
 
+import time
+import os
+import sys
+import re
+import mechanize
+import cookielib
+import logging
+import urllib2
+import httplib
+import random
+import glob
+import ConfigParser
+import HTMLParser
+import json
+import shutil
+import pickle
+import socket
+import hashlib
+import string
+import argparse
 
 
+def setup_logging(log_file_path):
+    # Setup logging (Before running any other code)
+    # http://inventwithpython.com/blog/2012/04/06/stop-using-print-for-debugging-a-5-minute-quickstart-guide-to-pythons-logging-module/
+    assert( len(log_file_path) > 1 )
+    assert( type(log_file_path) == type("") )
+    global logger
+    # Make sure output dir exists
+    log_file_folder =  os.path.dirname(log_file_path)
+    if log_file_folder is not None:
+        if not os.path.exists(log_file_folder):
+            os.makedirs(log_file_folder)
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+    formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+    fh = logging.FileHandler(log_file_path)
+    fh.setLevel(logging.DEBUG)
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.DEBUG)
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+    logging.debug("Logging started.")
+    return
 
 
 def save_file(filenamein,data,force_save=False):
@@ -90,17 +134,20 @@ def getwithinfo(url):
         if html:
     """
     attemptcount = 0
-    while attemptcount < GET_MAX_ATTEMPTS:
+    max_attempts = 10
+    retry_delay = 10
+    request_delay = 0
+    while attemptcount < max_attempts:
         attemptcount = attemptcount + 1
         if attemptcount > 1:
-            delay(GET_RETRY_DELAY)
+            delay(retry_delay)
             logging.debug( "Attempt "+repr(attemptcount)+" for URL: "+repr(url) )
         try:
             save_file(os.path.join("debug","get_last_url.txt"), url, True)
             r = br.open(url, timeout=100)
             info = r.info()
             reply = r.read()
-            delay(GET_REQUEST_DELAY)
+            delay(request_delay)
             # Save html responses for debugging
             #print info
             #print info["content-type"]
@@ -110,7 +157,7 @@ def getwithinfo(url):
             else:
                 save_file(os.path.join("debug","get_last_not_html.txt"), reply, True)
             # Retry if empty response and not last attempt
-            if (len(reply) < 1) and (attemptcount < GET_MAX_ATTEMPTS):
+            if (len(reply) < 1) and (attemptcount < max_attempts):
                 logging.error("Reply too short :"+repr(reply))
                 continue
             return reply,info
@@ -153,12 +200,38 @@ def getwithinfo(url):
 
 
 
+def assert_is_string(object_to_test):
+    """Make sure input is either a string or a unicode string"""
+    if( (type(object_to_test) == type("")) or (type(object_to_test) == type(u"")) ):
+        return
+    logging.critical(repr(locals()))
+    raise(ValueError)
 
 
+def setup_browser(cj):
+    #Initialize browser object to global variable "br" using cokie jar "cj"
+    # Browser
+    global br
+    br = mechanize.Browser()
+    br.set_cookiejar(cj)
+    # Browser options
+    br.set_handle_equiv(True)
+    br.set_handle_gzip(True)
+    br.set_handle_redirect(True)
+    br.set_handle_referer(True)
+    br.set_handle_robots(False)
+    # Follows refresh 0 but not hangs on refresh > 0
+    br.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
+    # User-Agent (this is cheating, ok?)
+    br.addheaders = [("User-agent", "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1")]
+    return
 
 
-
-
+def delay(basetime,upperrandom=0):
+    #replacement for using time.sleep, this adds a random delay to be sneaky
+    sleeptime = basetime + random.randint(0,upperrandom)
+    #logging.debug("pausing for "+repr(sleeptime)+" ...")
+    time.sleep(sleeptime)
 
 def main():
     pass
