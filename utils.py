@@ -11,6 +11,37 @@
 
 
 
+
+
+
+def save_file(filenamein,data,force_save=False):
+    if not force_save:
+        if os.path.exists(filenamein):
+            logging.debug("file already exists! "+repr(filenamein))
+            return
+    sanitizedpath = filenamein# sanitizepath(filenamein)
+    foldername = os.path.dirname(sanitizedpath)
+    if len(foldername) >= 1:
+        if not os.path.isdir(foldername):
+            os.makedirs(foldername)
+    file = open(sanitizedpath, "wb")
+    file.write(data)
+    file.close()
+    return
+
+
+
+def read_file(path):
+    """grab the contents of a file"""
+    f = open(path, "r")
+    data = f.read()
+    f.close()
+    return data
+
+
+
+
+
 def add_http(url):
     """Ensure a url starts with http://..."""
     if "http://" in url:
@@ -118,6 +149,9 @@ def getwithinfo(url):
             continue
     logging.critical("Too many repeated fails, exiting.")
     sys.exit()# [19:51] <@CloverTheClever> if it does it more than 10 times, quit/throw an exception upstream
+
+
+
 
 
 
