@@ -41,7 +41,7 @@ from archive_page import *
 
 
 
-def post_extract_data(user,post_id):
+def post_extract_data(user,post_id,post_date=None):
     """foo"""
     assert_is_string(user)
     assert_is_string(post_id)

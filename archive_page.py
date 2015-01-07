@@ -81,6 +81,7 @@ def archive_get_post_list(user,max_pages=100):
     if len(all_post_ids) != len(set(all_post_ids)):
         logging.error("Duplicate posts in archive page listing results!")
         assert False
+    assert False# This needs changing to find dates for each post!
     return all_post_ids
 # End archive page functions
 
