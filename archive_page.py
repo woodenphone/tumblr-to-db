@@ -10,19 +10,48 @@
 #-------------------------------------------------------------------------------
 
 
+import time
+import os
+import sys
+import re
+import mechanize
+import cookielib
+import logging
+import urllib2
+import httplib
+import random
+import glob
+import ConfigParser
+import HTMLParser
+import json
+import shutil
+import pickle
+import socket
+import hashlib
+import string
+import argparse
+import BeautifulSoup
 
-
-
+from utils import *
 
 
 
 # Functions to work with the archive pages
 def archive_parse_for_post_ids(page_html):
-    """foo"""
-    #
+    """Depreciated! Grab post ids from an archive page HTML"""
+    assert False
     post_ids_regex = """data\-post\-id\=['"](\d+)['"]"""
     post_ids = re.findall(post_ids_regex, page_html, re.IGNORECASE|re.DOTALL)
     return post_ids
+
+
+def archive_parse_for_posts(page_html):
+    """Parse archive page HTML and extract pairs of IDs and dates
+    Returns list of tuples of strings: [("",""),]"""
+    # <div\s+class="post.+data\-post\-id\=['"](\d+)['"].+?<span\s+class=['"]post_date['"]>([^<]+)</span>
+    post_info_regex = """<div\s+class="post.+?data\-post\-id\=['"](\d+)['"].+?<span\s+class=['"]post_date['"]>([^<]+)</span>"""
+    post_info = re.findall(post_info_regex, page_html, re.IGNORECASE|re.DOTALL)
+    return post_info
 
 
 def archive_find_next_page_url(base_url,page_html):
@@ -49,13 +78,14 @@ def archive_check_if_end_of_posts(page_html):
 
 
 def archive_get_post_list(user,max_pages=100):
-    """foo"""
-    all_post_ids = []
+    """Scrape archive listing for a user and collect post IDs and their dates
+    Returns a list of tuples of strings: [ ("",""), ]"""
+    all_posts = []
     base_url = "http://"+user+".tumblr.com"
     first_archive_url = base_url+"/archive"
     next_page_link = first_archive_url
     # Loop over archive pages
-    last_page_post_ids = []
+    last_page_posts = []
     counter = 0
     while (counter <= max_pages):
         counter += 1
@@ -67,22 +97,23 @@ def archive_get_post_list(user,max_pages=100):
         if end_reached:
             logging.info("Last page of archive listing reached, stopping scan")
             break
-        this_page_post_ids = archive_parse_for_post_ids(page_html)
-        logging.debug("this_page_post_ids:"+repr(this_page_post_ids))
+        this_page_posts = archive_parse_for_posts(page_html)
+        logging.debug("this_page_posts:"+repr(this_page_posts))
         # Stop if two pages have the same data
-        if this_page_post_ids == last_page_post_ids:
-            logging.info("Last pages IDs are the same as this ones!")
+        if this_page_posts == last_page_posts:
+            logging.info("Last pages data is the same as this ones!")
             break
-        all_post_ids += this_page_post_ids
+        all_posts += this_page_posts
         next_page_link = archive_find_next_page_url(base_url,page_html)
-        last_page_post_ids = this_page_post_ids
+        last_page_posts = this_page_posts
         continue
     # Sanity check post list
-    if len(all_post_ids) != len(set(all_post_ids)):
+    if len(all_posts) != len(set(all_posts)):
         logging.error("Duplicate posts in archive page listing results!")
         assert False
-    assert False# This needs changing to find dates for each post!
-    return all_post_ids
+    #assert False# This needs changing to find dates for each post!
+    logging.debug("all_posts:"+repr(all_posts))
+    return all_posts
 # End archive page functions
 
 

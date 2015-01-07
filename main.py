@@ -193,6 +193,14 @@ def post_parse_photoset_for_images(photoset_html):
 
 
 
+def download_user(username="argoth",output_path=""):
+    """Download eveything for one user"""
+    # For debugging and planning
+    archive_posts_list = archive_get_post_list(username)
+
+
+
+
 
 def main():
     # Setup logging
@@ -201,7 +209,7 @@ def main():
         global cj
         cj = cookielib.LWPCookieJar()
         setup_browser(cj)
-        return
+        download_user()
     except Exception, err:
         # Log exceptions
         logging.critical("Unhandled exception!")
@@ -225,17 +233,9 @@ if __name__ == '__main__':
 
 
 #post_html = get("http://argoth.tumblr.com/post/73342364076")
-#post_html = get("http://argoth.tumblr.com/post/73342364076")
-def demo_extract_photoset(post_url="http://nobbydraws.tumblr.com/post/107374702770/sourcedumal-mayahan-artist-jeff-de-boer"):
-    post_html = get(post_url)
-    photoset_links = post_find_photosets(post_html)
-    c = 0
-    for photoset_link in photoset_links:
-        c += 1
-        photoset_html = get(photoset_link)
-        photoset_image_groups = post_parse_photoset_for_images(photoset_html)
-        logging.info(repr(c)+"- found groups: "+repr(photoset_image_groups))
+archive_html = get("http://argoth.tumblr.com/archive")
 
+#post_ids = archive_parse_for_posts(archive_html)
 
 
 
