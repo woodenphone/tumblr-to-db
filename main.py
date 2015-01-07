@@ -47,7 +47,7 @@ def archive_parse_for_post_ids(page_html):
 
 def archive_find_next_page_url(base_url,page_html):
     """foo"""
-    next_page_link_regex = """<a\s+id=["']next_page_link["']\s+href=["'](/archive\?before_time=1405480755)["']>"""
+    next_page_link_regex = """<a\s+id=["']next_page_link["']\s+href=["'](/archive\?before_time=\d+)["']>"""
     next_page_link_search = re.search(next_page_link_regex, page_html, re.IGNORECASE|re.DOTALL)
     next_page_sublink = next_page_link_search.group(1)
     next_page_url = base_url+next_page_sublink
@@ -55,7 +55,7 @@ def archive_find_next_page_url(base_url,page_html):
 
 
 
-def archive_get_post_list(user):
+def archive_get_post_list(user,max_pages=100):
     """foo"""
     all_post_ids = []
     base_url = "http://"+user+".tumblr.com"
@@ -63,9 +63,10 @@ def archive_get_post_list(user):
     next_page_link = first_archive_url
     # Loop over archive pages
     last_page_post_ids = []
-    c = 0
-    while (c <= 10):
-        c += 1
+    counter = 0
+    while (counter <= max_pages):
+        counter += 1
+        logging.info("Scanning archive page for post ids, page # "+repr(counter))
         logging.debug("next_page_link:"+repr(next_page_link))
         page_html = get(next_page_link)
         this_page_post_ids = archive_parse_for_post_ids(page_html)
@@ -76,6 +77,12 @@ def archive_get_post_list(user):
             break
         all_post_ids += this_page_post_ids
         next_page_link = archive_find_next_page_url(base_url,page_html)
+        last_page_post_ids = this_page_post_ids
+        continue
+    # Sanity check post list
+    if len(all_post_ids) != len(set(all_post_ids)):
+        logging.error("Duplicate posts in archive page listing results!")
+        assert False
     return all_post_ids
 
 
@@ -106,8 +113,5 @@ if __name__ == '__main__':
 
 post_list = archive_get_post_list("argoth")
 logging.info("post_list:"+repr(post_list))
-archive_html = get("http://argoth.tumblr.com/archive")
-save_file("arc.html",archive_html)
-post_ids = archive_parse_for_post_ids(archive_html)
-logging.info(post_ids)
+
 
