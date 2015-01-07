@@ -149,7 +149,6 @@ def post_extract_facebook_keywords(page_html):
     return facebook_keywords
 
 
-
 # Image link finders
 def post_extract_image_page_links(post_html):
     """Find all media and return the URLS for downloading
@@ -163,10 +162,30 @@ def post_extract_image_page_links(post_html):
     # 2. Image hover text
     # [ [display_page],[thumb_link],[hover_text]], [display_page],[thumb_link],[hover_text]] ]
     image_page_link_regex = """<div\s+class="media"><a\s+href="([^"']+.tumblr.com/image/[^"']+)">\s*<img\s+src=["']([^"']+)["']\s+alt=["']([^"']+)["']\s+/>\s*</a>\s*</div>"""
-    image_page_link_search = re.findall(image_page_link_regex, post_html, re.IGNORECASE|re.DOTALL)
+    image_page_link_matches = re.findall(image_page_link_regex, post_html, re.IGNORECASE|re.DOTALL)
+    return image_page_link_matches
 
 
 
+def post_find_photosets(page_html):
+    """Find photoset iframe embeds and return the url to the iframe
+    Returns a list of strings [ "link1", "link2" ]"""
+    # Find photoset iframes
+    find_photoset_iframe_regex = """src=["']([^"']+/photoset_iframe/[^"']+)["']>"""
+    photoset_links = re.findall(find_photoset_iframe_regex, post_html, re.IGNORECASE|re.DOTALL)
+    return photoset_links
+    # Save photoset iframes
+    photoset_link = photoset_links[0]
+
+
+def post_parse_photoset_for_images(photoset_html):
+    """find the image links in a photoset
+    Returns a list of tuples containing links to the fullsized images and their associated thumbnail
+    i.e. [ ("FULL_LINK", "THUMB_LINK"), ("FULL_LINK", "THUMB_LINK")...]"""
+    # <div\s+class="photoset.+?href=["']([^"']+.media.tumblr.com/[^"']+)["'].+?src=["']([^"']+)["'].+?</div>
+    photoset_image_pairs_regex = """<div\s+class="photoset.+?href=["']([^"']+.media.tumblr.com/[^"']+)["'].+?src=["']([^"']+)["'].+?</div>"""
+    photoset_image_pairs = re.findall(photoset_image_pairs_regex, photoset_html, re.IGNORECASE|re.DOTALL)
+    return photoset_image_pairs
 # End image link finders
 
 # End post functions
@@ -207,42 +226,15 @@ if __name__ == '__main__':
 
 #post_html = get("http://argoth.tumblr.com/post/73342364076")
 #post_html = get("http://argoth.tumblr.com/post/73342364076")
-post_html = get("http://nobbydraws.tumblr.com/post/107374702770/sourcedumal-mayahan-artist-jeff-de-boer")
-
-
-
-
-
-image_page_link_regex = """<div\s+class="media"><a\s+href="([^"']+.tumblr.com/image/[^"']+)">\s*<img\s+src=["']([^"']+)["']\s+alt=["']([^"']+)["']\s+/>\s*</a>\s*</div>"""
-image_page_link_matches = re.findall(image_page_link_regex, post_html, re.IGNORECASE|re.DOTALL)
-
-
-
-def post_find_photosets(page_html):
-    """Find photoset iframe embeds and return the url to the iframe
-    Returns a list of strings [ "link1", "link2" ]"""
-    # Find photoset iframes
-    find_photoset_iframe_regex = """src=["']([^"']+/photoset_iframe/[^"']+)["']>"""
-    photoset_links = re.findall(find_photoset_iframe_regex, post_html, re.IGNORECASE|re.DOTALL)
-    return photoset_links
-    # Save photoset iframes
-    photoset_link = photoset_links[0]
-    # For photoset_link in photoset_links:
-def post_parse_photoset(photoset_url):
-    """find the image links in a photoset
-    Returns a list of links to the fullsized images"""
-    photoset_html = get(photoset_link)
-    # Find photoset image links
-    # href="http://40.media.tumblr.com/417c177820b5db0e90c8e5546c79a33f/tumblr_nhl1jjU1gQ1qzbjuko4_1280.jpg"
-    # href=["']([^"']+.media.tumblr.com/[^"']+)["']
-    photoset_image_link_regex = """href=["']([^"']+.media.tumblr.com/[^"']+)["']"""
-    photoset_image_links = re.findall(photoset_image_link_regex, photoset_html, re.IGNORECASE|re.DOTALL)
-
-    # Find full link and thumbnail link
-    # [ ("FULL_LINK", "THUMB_LINK"), ("FULL_LINK", "THUMB_LINK")...]
-    # <div\s+class="photoset.+?href=["']([^"']+.media.tumblr.com/[^"']+)["'].+?src=["']([^"']+)["'].+?</div>
-    photoset_image_pairs_regex = """<div\s+class="photoset.+?href=["']([^"']+.media.tumblr.com/[^"']+)["'].+?src=["']([^"']+)["'].+?</div>"""
-    photoset_image_pairs = re.findall(photoset_image_pairs_regex, photoset_html, re.IGNORECASE|re.DOTALL)
+def demo_extract_photoset(post_url="http://nobbydraws.tumblr.com/post/107374702770/sourcedumal-mayahan-artist-jeff-de-boer"):
+    post_html = get(post_url)
+    photoset_links = post_find_photosets(post_html)
+    c = 0
+    for photoset_link in photoset_links:
+        c += 1
+        photoset_html = get(photoset_link)
+        photoset_image_groups = post_parse_photoset_for_images(photoset_html)
+        logging.info(repr(c)+"- found groups: "+repr(photoset_image_groups))
 
 
 
