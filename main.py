@@ -48,21 +48,22 @@ def post_extract_data(user,post_id,post_date=None):
     # Load post page
     # http://argoth.tumblr.com/post/73342364076
     post_url = "http://"+user+".tumblr.com/post/"+post_id
-    post_page_html = get(post_url)
-    post_retreval_date = datetime.now()
+    page_html = get(post_url)
     # Extract stuff
     post_html = post_extract_post_from_background(page_html)
     post_tags = post_extract_tags(page_html)
-
+    post_media_links = post_extract_media(post_html)
 
 
 
 
 def post_extract_post_from_background(page_html):
     """Find the main inner post section of the page and return just that section"""
-    soup = BeautifulSoup.BeautifulSoup(page_html)
-    post_inner_html = soup.find("div", "post")
+    soup_outer = BeautifulSoup.BeautifulSoup(page_html)
+    post_inner_tag = soup_outer.find("div", "post")
+    post_inner_html = post_inner_tag.prettify()
     return post_inner_html
+
 
 def post_extract_tags(page_html):
     """Find the tags of a post"""
@@ -77,8 +78,20 @@ def post_extract_tags(page_html):
     tags = re.findall(find_tags_regex, tags_html, re.IGNORECASE|re.DOTALL)
     return tags
 
-def post_extract_media(page_html):
-    """Find all media and return the URLS for downloading"""
+
+def post_extract_image_page_links(post_html):
+    """Find all media and return the URLS for downloading
+    returns in this format: [ (display_page, thumb_link, hover_text), (display_page, thumb_link, hover_text), ]"""
+    # Find image page links in posts
+    #<a href="http://argoth.tumblr.com/image/73342364076"><img src="http://40.media.tumblr.com/bf10286a9ed43682f437bc52cb0d2669/tumblr_mzew5pUxKb1r3mp9eo1_500.png" alt="BLAHBLAHBLAH"></a>
+    # <div\s+class="media"><a\s+href="([^"']+.tumblr.com/image/[^"']+)">\s*<img\s+src=["']([^"']+)["']\s+alt=["']([^"']+)["']\s+/>\s*</a>\s*</div>
+    # Groups:
+    # 0: Image view page URL
+    # 1: Image thumbnail URL
+    # 2. Image hover text
+    # [ [display_page],[thumb_link],[hover_text]], [display_page],[thumb_link],[hover_text]] ]
+    image_page_link_regex = """<div\s+class="media"><a\s+href="([^"']+.tumblr.com/image/[^"']+)">\s*<img\s+src=["']([^"']+)["']\s+alt=["']([^"']+)["']\s+/>\s*</a>\s*</div>"""
+    image_page_link_search = re.findall(image_page_link_regex, post_html, re.IGNORECASE|re.DOTALL)
 
 
 def post_find_text(page_html):
@@ -95,6 +108,7 @@ def post_find_notes(page_html):
 
 def post_extract_date(page_html):
     """Find the date of the post"""
+
 
 def post_extract_page_title(page_html):
     """Find the page title of a post"""
@@ -185,18 +199,22 @@ if __name__ == '__main__':
 #post_list = archive_get_post_list("argoth")
 #logging.info("post_list:"+repr(post_list))
 
-post_extract_data(user="argoth", post_id="73342364076")
+#post_extract_data(user="argoth", post_id="73342364076")
 
 
 
 
-page_html = get("http://argoth.tumblr.com/post/73342364076")
-soup = BeautifulSoup.BeautifulSoup(page_html)
-tag_elements = soup.find("div", "tags", "a")
-for current_tag in tag_elements:
-    print current_tag.string
+post_html = get("http://argoth.tumblr.com/post/73342364076")
 
-logging.debug(repr(tags_html))
+
+
+image_page_link_regex = """<div\s+class="media"><a\s+href="([^"']+.tumblr.com/image/[^"']+)">\s*<img\s+src=["']([^"']+)["']\s+alt=["']([^"']+)["']\s+/>\s*</a>\s*</div>"""
+image_page_link_matches = re.findall(image_page_link_regex, post_html, re.IGNORECASE|re.DOTALL)
+
+
+
+
+
 
 
 
