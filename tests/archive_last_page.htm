@@ -1,0 +1,126 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><meta http-equiv="x-dns-prefetch-control" content="off"/><title>Moon and Earth: Archive</title><link rel="icon" href="http://33.media.tumblr.com/avatar_c89e7f69d4aa_128.png" type="image/png"/><link rel="stylesheet" media="screen" href="http://assets.tumblr.com/client/prod/app/styles/global.css?_v=838ce845c8fc845f7b7488a0f9bdc20c"><link rel="stylesheet" media="screen" href="http://assets.tumblr.com/assets/styles/archive.css?_v=c6123bd81de2447f09f1843c60bb44aa">
+<link rel="stylesheet" media="screen" href="http://assets.tumblr.com/client/prod/app/context/archive/styles.css?_v=f5906c70624d71d4147d3e8f007721ba"><script>require=function r(t,n,e){function o(i,f){if(!n[i]){if(!t[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);throw new Error("Cannot find module '"+i+"'")}var a=n[i]={exports:{}};t[i][0].call(a.exports,function(r){var n=t[i][1][r];return o(n?n:r)},a,a.exports,r,t,n,e)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<e.length;i++)o(e[i]);return o}({"f/LVtH":[function(r,t){"use strict";function n(r){return"function"==typeof r}function e(r){return"undefined"==typeof r}function o(r){var t,e;if(!n(r))throw new TypeError;return function(){return t?e:(t=!0,e=r.apply(this,arguments),r=null,e)}}function u(r){return!(!c||!c[r])}function i(r){var t=u(r);return t?function o(r){var u=n(r)?r.call(this,t):r;return e(u)?o:u}:function i(r,o){var u=n(o)?o.call(this,t):o;return e(u)?i:u}}function f(r){try{c=JSON.parse(p(r))}catch(t){c={}}}var c,a=Object.prototype,p=(a.toString,n(window.atob)?window.atob:function(r){var t,n,e,o,u={},i=0,f=0,c="",a=String.fromCharCode,p=r.length,s="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";for(t=0;64>t;t++)u[s.charAt(t)]=t;for(e=0;p>e;e++)for(n=u[r.charAt(e)],i=(i<<6)+n,f+=6;f>=8;)((o=i>>>(f-=8)&255)||p-2>e)&&(c+=a(o));return c});t.exports=i,t.exports.bool=u,t.exports.setup=o(f)},{}],"prima/lib/flags":[function(r,t){t.exports=r("f/LVtH")},{}]},{},[]);</script><script>
+(function(exports, store) {
+    'use strict';
+    var flags = require('prima/lib/flags');
+    flags.setup(store);
+    exports.Flags = flags; // Legacy Tumblr.Flags
+})((this.Tumblr || (this.Tumblr = {})), "eyJmaWx0ZXJfbnNmdyI6dHJ1ZSwia2V5Y29tbWFuZF9hdXRvX3BhZ2luYXRlIjp0cnVlLCJsb2dnZWRfb3V0X3NlYXJjaCI6dHJ1ZSwic2VjdXJlX2Zvcm1fa2V5Ijp0cnVlLCJzZWN1cmVfZm9ybV9rZXlfZnVsbHlfb24iOnRydWUsInR1bWJsZWxvZ19wb3BvdmVyIjp0cnVlLCJlbmFibGVfY2FwdHVyZV9qcyI6dHJ1ZSwidGFibGV0X2Jhbm5lcl9hY3RpdmUiOnRydWUsIm1vYmlsZV9iYW5uZXJfYWN0aXZlIjp0cnVlLCJ1c2VyX21lbnRpb25zIjp0cnVlLCJodG1sNV9hdWRpb19wbGF5ZXIiOnRydWUsInBvcG92ZXJfcmVjb21tZW5kYXRpb25zIjp0cnVlLCJwb3B0aWNhX3R1bWJsZWxvZ19wb3BvdmVycyI6dHJ1ZSwidGFiX3N3aXRjaGVyIjp0cnVlLCJmYXN0X2NvbXBvc2UiOnRydWUsImRhc2hib2FyZF9yZWZyZXNoIjp0cnVlLCJkb250X2Nhc3RfanNfZm9sbG93cyI6dHJ1ZSwiZ3VscGpzX2FkbWluIjp0cnVlLCJlbmFibGVfanNfZXBoZW1lcmFsX2xvZyI6dHJ1ZSwibG9nX2xhZHkiOnRydWUsImNzbG9nZ2VyX2pzIjp0cnVlLCJkaXNjb3ZlcnlfaHViX2FjY2VzcyI6dHJ1ZSwiaGVhZGVyX2FjY291bnRfbWVudSI6dHJ1ZSwiZW5hYmxlX3ByaW1hX3NoYXJlX3BvcG92ZXIiOnRydWUsInBpbnRlcmVzdF9zaGFyaW5nIjp0cnVlLCJkaXNhYmxlX3lhaG9vX2JfY29va2llIjp0cnVlfQ==");
+</script>
+<script src="http://assets.tumblr.com/client/prod/app/vendor/index.js?_v=b4f312186598150ce713fe4b451fb940"></script><script>
+    Tumblr.assets_host       = 'http://assets.tumblr.com';
+        Tumblr.getRealNow = (function(p, ts) {
+        var start = (p && p.timing && p.timing.responseStart) || Date.now();
+        return function() { return ts + (Date.now() - start); };
+    })(window.performance, 1420611899000);
+
+    Tumblr.started_at = (new Date()).getTime();
+    Tumblr.real_started_at = Tumblr.getRealNow();
+            Tumblr._log_lady_bootstrap = {"keys":{"search_landing_usage":{"init_event":false,"keep_counts":true,"flags":[]},"search_session_v1":{"init_event":false,"keep_counts":false,"flags":[]}},"default_session":"llsid54acd13b4001c8.58472240"};
+    </script><script src="http://assets.tumblr.com/languages/strings/en_US.js?1342"></script><script src="http://assets.tumblr.com/assets/scripts/tumblr/utils/exceptions.js?_v=b3ec871c0e589d767d690a8b4185c229"></script><script src="http://assets.tumblr.com/assets/scripts/polyfills.js?_v=bcc832ec0df74eda743c7f9c36d71cde"></script><script src="http://assets.tumblr.com/assets/scripts/polyfills.js?_v=bcc832ec0df74eda743c7f9c36d71cde"></script><script src="http://assets.tumblr.com/assets/scripts/archive/archive.js?_v=c3b3e2d65739262e8dfd46ab61675d81"></script><script>
+            var l10n_str = l10n_str || {},
+            just_clicked_browse_months = false,
+            is_mobile = RegExp(" Mobile/").test(navigator.userAgent);
+        </script><!--[if lt IE 9]><script>
+              document.createElement('header');
+              document.createElement('nav');
+              document.createElement('section');
+              document.createElement('article');
+              document.createElement('aside');
+              document.createElement('footer');
+           </script><![endif]--></head><body id="body"><header id="nav_archive" class="blue_bar"><a href="/" class="title"><span id="back_to_blog"></span><img class="avatar" src="http://33.media.tumblr.com/avatar_c89e7f69d4aa_40.png" alt="" /><h1 class="blog_title">Moon and Earth</h1></a><div id="browse_months"><div id="jump_to_month"><span class="month">Month </span><span class="icon_arrow_carrot_down"></span></div></div><nav id="register" class="nav_right"><iframe scrolling="no" frameborder="0" id="tumblr_controls" src="http://assets.tumblr.com/assets/html/archive_iframe.html?_v=46a52b91dfb0d4ff2945699736afce54#src=http%3A%2F%2Fargoth.tumblr.com%2Farchive%3Fbefore_time%3D1317153940&amp;name=argoth" width="400" height="28" style="border:0; background-color:transparent; overflow:hidden; "></iframe></nav></header><div id="no_posts_yet">No posts yet.</div><iframe scrolling="no" width="1" height="1" frameborder="0" style="background-color:transparent; overflow:hidden; position:absolute; top:0; left:0; z-index:9999;" id="ga_target"></iframe><script type="text/javascript">
+    (function(){
+        var analytics_frame = document.getElementById('ga_target');
+        var analytics_iframe_loaded;
+        var user_logged_in;
+        var blog_is_nsfw = 'Yes';
+        var addthis_enabled = false;
+
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+        eventer(messageEvent,function(e) {
+            var message = (e.data && e.data.split) ? e.data.split(';') : '';
+            switch (message[0]) {
+                case 'analytics_iframe_loaded':
+                    analytics_iframe_loaded = true;
+                    postCSMessage();
+                    postGAMessage();
+                    postATMessage();
+                    break;
+                case 'user_logged_in':
+                    user_logged_in = message[1];
+                    postGAMessage();
+                    postATMessage();
+                    break;
+            }
+        }, false);
+
+        analytics_frame.src = "https://secure.assets.tumblr.com/analytics.html?a57a7a4b4579d695d8e64bdfee554a5e#http://argoth.tumblr.com";
+        function postGAMessage() {
+            if (analytics_iframe_loaded && user_logged_in) {
+                var is_ajax = false;
+                analytics_frame.contentWindow.postMessage(['tick_google_analytics', is_ajax, user_logged_in, blog_is_nsfw, '/archive?before_time=1317153940\x26route=%2Farchive'].join(';'), analytics_frame.src.split('/analytics.html')[0]);
+            }
+        }
+        function postCSMessage() {
+            COMSCORE = true;
+            analytics_frame.contentWindow.postMessage('enable_comscore;' + window.location, analytics_frame.src.split('/analytics.html')[0]);
+        }
+        function postATMessage() {
+            if (addthis_enabled && analytics_iframe_loaded) {
+                analytics_frame.contentWindow.postMessage('enable_addthis', analytics_frame.src.split('/analytics.html')[0]);
+            }
+        }
+    })();
+</script><script type="text/javascript">!function(s){s.src='https://www.tumblr.com/impixu?T=1420611899&J=eyJ0eXBlIjoidXJsIiwidXJsIjoiaHR0cDpcL1wvYXJnb3RoLnR1bWJsci5jb21cL2FyY2hpdmU/YmVmb3JlX3RpbWU9MTMxNzE1Mzk0MCIsInJlcXR5cGUiOjAsInJvdXRlIjoiXC9hcmNoaXZlIn0=&U=GFEHHJKMIH&K=60c1b2e700133a05071b01811eb1444bccc4ef4be8fb61118e7575cc0ce1ad7e&R='.replace(/&R=[^&$]*/,'').concat('&R='+escape(document.referrer)).slice(0,2000).replace(/%.?.?$/,'');}(new Image());</script><noscript><img style="position:absolute;z-index:-3334;top:0px;left:0px;visibility:hidden;" src="https://www.tumblr.com/impixu?T=1420611899&J=eyJ0eXBlIjoidXJsIiwidXJsIjoiaHR0cDpcL1wvYXJnb3RoLnR1bWJsci5jb21cL2FyY2hpdmU/YmVmb3JlX3RpbWU9MTMxNzE1Mzk0MCIsInJlcXR5cGUiOjAsInJvdXRlIjoiXC9hcmNoaXZlIiwibm9zY3JpcHQiOjF9&U=GFEHHJKMIH&K=03fd84ef2c38ac475c4dc319a7ce566358c752fc3907b455c5bebfd854898764&R="></noscript><script>
+        (function (w,d) {
+            'use strict';
+            var l = function(el, type, listener, useCapture) {
+                el.addEventListener ?
+                el.addEventListener(type, listener, !!useCapture) :
+                el.attachEvent && el.attachEvent('on' + type, listener, !!useCapture);
+            };
+            var a = function () {
+                                if (d.getElementById('tumblr-cdx')) {
+                    return;
+                }
+                var s = d.createElement('script');
+                var el = d.getElementsByTagName('script')[0];
+                s.async = true;
+                s.src = 'http://assets.tumblr.com/assets/scripts/vendor/cedexis/cedexis.radar.min.js?_v=1360de60c9b05c6a55bd6a6e510e1699';
+                s.type = 'text/javascript';
+                s.id = 'tumblr-cdx';
+                d.body.appendChild(s);
+            };
+            l(w,'load',a);
+        }(window, document));
+</script><script>
+                (function() {
+                    var s = document.createElement('script');
+                    var el = document.getElementsByTagName('script')[0];
+                                            s.src = ('https:' == document.location.protocol ? 'https://s' : 'http://l') + '.yimg.com/ss/rapid-3.18.1.js';
+                                        s.onload = function(){
+                        var YAHOO = window.YAHOO;
+                        if (YAHOO) {
+                            var keys = {
+                                pd:'/archive',
+                                _li:0,
+                                b_id:29996511,
+                                i_rad:0,
+                                i_strm:0
+                            };
+                            var conf = {
+                                                                spaceid:1197716038,
+                                client_only:1,
+                                yql_enabled:false,
+                                keys:keys,
+                                nol:1
+                            };
+                            YAHOO.rapid = new YAHOO.i13n.Rapid(conf);
+                        }
+                    };
+                    el.parentNode.insertBefore(s, el);
+                })();
+            </script><div id="browse_months_widget" class="popover popover_gradient" style="display:none"><div class="popover_inner"><section id="year_2015" class="year" style="display:block"><header class="year_navigation"><a class="previous_year" href="#"><span>2014</span></a><span class="current_year">2015</span><div class="next_year"><span></span></div><div class="clear"></div></header><nav class="months"><ul><li><a href="/archive/2015/1">January</a><span class="count">13</span></li><li class="empty"><span>February</span></li><li class="empty"><span>March</span></li><li class="empty"><span>April</span></li><li class="empty"><span>May</span></li><li class="empty"><span>June</span></li><li class="empty"><span>July</span></li><li class="empty"><span>August</span></li><li class="empty"><span>September</span></li><li class="empty"><span>October</span></li><li class="empty"><span>November</span></li><li class="empty"><span>December</span></li></ul></nav></section><section id="year_2014" class="year" style="display:none"><header class="year_navigation"><a class="previous_year" href="#"><span>2013</span></a><span class="current_year">2014</span><a class="next_year" href="#"><span>2015</span></a><div class="clear"></div></header><nav class="months"><ul><li><a href="/archive/2014/1">January</a><span class="count">40</span></li><li><a href="/archive/2014/2">February</a><span class="count">11</span></li><li><a href="/archive/2014/3">March</a><span class="count">8</span></li><li><a href="/archive/2014/4">April</a><span class="count">6</span></li><li><a href="/archive/2014/5">May</a><span class="count">9</span></li><li><a href="/archive/2014/6">June</a><span class="count">13</span></li><li><a href="/archive/2014/7">July</a><span class="count">8</span></li><li><a href="/archive/2014/8">August</a><span class="count">6</span></li><li><a href="/archive/2014/9">September</a><span class="count">5</span></li><li><a href="/archive/2014/10">October</a><span class="count">2</span></li><li><a href="/archive/2014/11">November</a><span class="count">9</span></li><li><a href="/archive/2014/12">December</a><span class="count">14</span></li></ul></nav></section><section id="year_2013" class="year" style="display:none"><header class="year_navigation"><a class="previous_year" href="#"><span>2012</span></a><span class="current_year">2013</span><a class="next_year" href="#"><span>2014</span></a><div class="clear"></div></header><nav class="months"><ul><li><a href="/archive/2013/1">January</a><span class="count">74</span></li><li><a href="/archive/2013/2">February</a><span class="count">62</span></li><li><a href="/archive/2013/3">March</a><span class="count">55</span></li><li><a href="/archive/2013/4">April</a><span class="count">36</span></li><li><a href="/archive/2013/5">May</a><span class="count">25</span></li><li><a href="/archive/2013/6">June</a><span class="count">2</span></li><li class="empty"><span>July</span></li><li><a href="/archive/2013/8">August</a><span class="count">6</span></li><li><a href="/archive/2013/9">September</a><span class="count">10</span></li><li><a href="/archive/2013/10">October</a><span class="count">43</span></li><li><a href="/archive/2013/11">November</a><span class="count">25</span></li><li><a href="/archive/2013/12">December</a><span class="count">51</span></li></ul></nav></section><section id="year_2012" class="year" style="display:none"><header class="year_navigation"><a class="previous_year" href="#"><span>2011</span></a><span class="current_year">2012</span><a class="next_year" href="#"><span>2013</span></a><div class="clear"></div></header><nav class="months"><ul><li><a href="/archive/2012/1">January</a><span class="count">11</span></li><li><a href="/archive/2012/2">February</a><span class="count">17</span></li><li><a href="/archive/2012/3">March</a><span class="count">69</span></li><li><a href="/archive/2012/4">April</a><span class="count">53</span></li><li><a href="/archive/2012/5">May</a><span class="count">17</span></li><li><a href="/archive/2012/6">June</a><span class="count">73</span></li><li><a href="/archive/2012/7">July</a><span class="count">113</span></li><li><a href="/archive/2012/8">August</a><span class="count">80</span></li><li><a href="/archive/2012/9">September</a><span class="count">126</span></li><li><a href="/archive/2012/10">October</a><span class="count">43</span></li><li><a href="/archive/2012/11">November</a><span class="count">16</span></li><li><a href="/archive/2012/12">December</a><span class="count">30</span></li></ul></nav></section><section id="year_2011" class="year" style="display:none"><header class="year_navigation"><div class="previous_year"><span></span></div><span class="current_year">2011</span><a class="next_year" href="#"><span>2012</span></a><div class="clear"></div></header><nav class="months"><ul><li class="empty"><span>January</span></li><li class="empty"><span>February</span></li><li class="empty"><span>March</span></li><li class="empty"><span>April</span></li><li class="empty"><span>May</span></li><li class="empty"><span>June</span></li><li class="empty"><span>July</span></li><li class="empty"><span>August</span></li><li><a href="/archive/2011/9">September</a><span class="count">5</span></li><li><a href="/archive/2011/10">October</a><span class="count">1</span></li><li class="empty"><span>November</span></li><li><a href="/archive/2011/12">December</a><span class="count">5</span></li></ul></nav></section></div></div><script src="http://assets.tumblr.com/client/prod/app/context/archive/index.js?_v=50573644f21507bbd84345083070ca6e"></script><script>require("context").bootloader({"Components":{"LogLady":{"keys":{"search_landing_usage":{"init_event":false,"keep_counts":true,"flags":[]},"search_session_v1":{"init_event":false,"keep_counts":false,"flags":[]}},"default_session":"llsid54acd13b4001c8.58472240"}},"Flags":[],"Context":{"name":"archive","time":1420611899000,"userinfo":{"primary":"","name":""},"hosts":{"assets_host":"http:\/\/assets.tumblr.com","www_host":"http:\/\/www.tumblr.com","embed_host":"https:\/\/embed.tumblr.com","safe_host":"http:\/\/safe.txmblr.com"}},"Translations":[]});</script>
+</body></html>
