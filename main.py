@@ -41,19 +41,19 @@ from archive_page import *
 
 
 
-def post_extract_data(user,post_id,post_date=None):
+def post_extract_data(username,post_id,post_date=None):
     """foo"""
-    assert_is_string(user)
+    assert_is_string(username)
     assert_is_string(post_id)
     # Load post page
     # http://argoth.tumblr.com/post/73342364076
-    post_url = "http://"+user+".tumblr.com/post/"+post_id
+    post_url = "http://"+username+".tumblr.com/post/"+post_id
     page_html = get(post_url)
     # Extract stuff
     post_html = post_extract_post_from_background(page_html)
     post_tags = post_extract_tags(page_html)
-    image_page_links = post_extract_image_page_links(post_html)(post_html)
-
+    post_image_page_links = post_extract_image_page_links(post_html)(post_html)
+    post_photosets = post_find_photosets(page_html)
 
 
 
@@ -179,13 +179,37 @@ def post_find_photosets(page_html):
 
 
 def post_parse_photoset_for_images(photoset_html):
-    """find the image links in a photoset
+    """Find the image links in a photoset
     Returns a list of tuples containing links to the fullsized images and their associated thumbnail
     i.e. [ ("FULL_LINK", "THUMB_LINK"), ("FULL_LINK", "THUMB_LINK")...]"""
     # <div\s+class="photoset.+?href=["']([^"']+.media.tumblr.com/[^"']+)["'].+?src=["']([^"']+)["'].+?</div>
     photoset_image_pairs_regex = """<div\s+class="photoset.+?href=["']([^"']+.media.tumblr.com/[^"']+)["'].+?src=["']([^"']+)["'].+?</div>"""
     photoset_image_pairs = re.findall(photoset_image_pairs_regex, photoset_html, re.IGNORECASE|re.DOTALL)
     return photoset_image_pairs
+
+
+def post_find_header_image(post_html):
+    """Extract the URL for the header image at the top of the page
+    Returns a URL string"""
+    # <div id="title"><a href="/"><img src="http://static.tumblr.com/ae311e23f1ed11ec4bfff35e7ef9c21d/vtjzolj/JVqmk3fc3/tumblr_static_header3.png" />
+    # <div\s+id="title">\s+<[^<]+>\s+<img\s+src=["']([^"']+)["']\s+/>
+    header_image_regex = """<div\s+id="title">\s+<[^<]+>\s+<img\s+src=["']([^"']+)["']\s+/>"""
+    header_image_search = re.search(header_image_regex, page_html, re.IGNORECASE|re.DOTALL)
+    header_image = header_image_search.group(1)
+    return header_image
+
+
+def post_find_avatar_image(post_html):
+    """Extract the URL for the poster's avatar image at the top left of the page
+    Returns a URL string"""
+    # <div id="title"><a href="/"><img src="http://static.tumblr.com/ae311e23f1ed11ec4bfff35e7ef9c21d/vtjzolj/JVqmk3fc3/tumblr_static_header3.png" />
+    # <div\s+id="title">\s+<[^<]+>\s+<img\s+src=["']([^"']+)["']\s+/>
+    avatar_image_regex = """<div\s+id=["']avatar["']><[^<>]+><img\s+src=["']([^"'<>]+)["']\s*/></a></div>"""
+    avatar_image_search = re.search(avatar_image_regex, page_html, re.IGNORECASE|re.DOTALL)
+    avatar_image = avatar_image_search.group(1)
+    return avatar_image
+
+
 # End image link finders
 
 # End post functions
@@ -197,6 +221,8 @@ def download_user(username="argoth",output_path=""):
     """Download eveything for one user"""
     # For debugging and planning
     archive_posts_list = archive_get_post_list(username)
+    for post_id, post_date in archive_posts_list:
+        post_extract_data(username,post_id,post_date=None)
 
 
 
