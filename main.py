@@ -52,7 +52,7 @@ def post_extract_data(user,post_id,post_date=None):
     # Extract stuff
     post_html = post_extract_post_from_background(page_html)
     post_tags = post_extract_tags(page_html)
-    post_media_links = post_extract_media(post_html)
+    image_page_links = post_extract_image_page_links(post_html)(post_html)
 
 
 
@@ -79,19 +79,7 @@ def post_extract_tags(page_html):
     return tags
 
 
-def post_extract_image_page_links(post_html):
-    """Find all media and return the URLS for downloading
-    returns in this format: [ (display_page, thumb_link, hover_text), (display_page, thumb_link, hover_text), ]"""
-    # Find image page links in posts
-    #<a href="http://argoth.tumblr.com/image/73342364076"><img src="http://40.media.tumblr.com/bf10286a9ed43682f437bc52cb0d2669/tumblr_mzew5pUxKb1r3mp9eo1_500.png" alt="BLAHBLAHBLAH"></a>
-    # <div\s+class="media"><a\s+href="([^"']+.tumblr.com/image/[^"']+)">\s*<img\s+src=["']([^"']+)["']\s+alt=["']([^"']+)["']\s+/>\s*</a>\s*</div>
-    # Groups:
-    # 0: Image view page URL
-    # 1: Image thumbnail URL
-    # 2. Image hover text
-    # [ [display_page],[thumb_link],[hover_text]], [display_page],[thumb_link],[hover_text]] ]
-    image_page_link_regex = """<div\s+class="media"><a\s+href="([^"']+.tumblr.com/image/[^"']+)">\s*<img\s+src=["']([^"']+)["']\s+alt=["']([^"']+)["']\s+/>\s*</a>\s*</div>"""
-    image_page_link_search = re.findall(image_page_link_regex, post_html, re.IGNORECASE|re.DOTALL)
+
 
 
 def post_find_text(page_html):
@@ -162,11 +150,24 @@ def post_extract_facebook_keywords(page_html):
 
 
 
+# Image link finders
+def post_extract_image_page_links(post_html):
+    """Find all media and return the URLS for downloading
+    returns in this format: [ (display_page, thumb_link, hover_text), (display_page, thumb_link, hover_text), ]"""
+    # Find image page links in posts
+    #<a href="http://argoth.tumblr.com/image/73342364076"><img src="http://40.media.tumblr.com/bf10286a9ed43682f437bc52cb0d2669/tumblr_mzew5pUxKb1r3mp9eo1_500.png" alt="BLAHBLAHBLAH"></a>
+    # <div\s+class="media"><a\s+href="([^"']+.tumblr.com/image/[^"']+)">\s*<img\s+src=["']([^"']+)["']\s+alt=["']([^"']+)["']\s+/>\s*</a>\s*</div>
+    # Groups:
+    # 0: Image view page URL
+    # 1: Image thumbnail URL
+    # 2. Image hover text
+    # [ [display_page],[thumb_link],[hover_text]], [display_page],[thumb_link],[hover_text]] ]
+    image_page_link_regex = """<div\s+class="media"><a\s+href="([^"']+.tumblr.com/image/[^"']+)">\s*<img\s+src=["']([^"']+)["']\s+alt=["']([^"']+)["']\s+/>\s*</a>\s*</div>"""
+    image_page_link_search = re.findall(image_page_link_regex, post_html, re.IGNORECASE|re.DOTALL)
 
 
 
-
-
+# End image link finders
 
 # End post functions
 
@@ -204,7 +205,11 @@ if __name__ == '__main__':
 
 
 
-post_html = get("http://argoth.tumblr.com/post/73342364076")
+#post_html = get("http://argoth.tumblr.com/post/73342364076")
+#post_html = get("http://argoth.tumblr.com/post/73342364076")
+post_html = get("http://nobbydraws.tumblr.com/post/107374702770/sourcedumal-mayahan-artist-jeff-de-boer")
+
+
 
 
 
@@ -212,6 +217,32 @@ image_page_link_regex = """<div\s+class="media"><a\s+href="([^"']+.tumblr.com/im
 image_page_link_matches = re.findall(image_page_link_regex, post_html, re.IGNORECASE|re.DOTALL)
 
 
+
+def post_find_photosets(page_html):
+    """Find photoset iframe embeds and return the url to the iframe
+    Returns a list of strings [ "link1", "link2" ]"""
+    # Find photoset iframes
+    find_photoset_iframe_regex = """src=["']([^"']+/photoset_iframe/[^"']+)["']>"""
+    photoset_links = re.findall(find_photoset_iframe_regex, post_html, re.IGNORECASE|re.DOTALL)
+    return photoset_links
+    # Save photoset iframes
+    photoset_link = photoset_links[0]
+    # For photoset_link in photoset_links:
+def post_parse_photoset(photoset_url):
+    """find the image links in a photoset
+    Returns a list of links to the fullsized images"""
+    photoset_html = get(photoset_link)
+    # Find photoset image links
+    # href="http://40.media.tumblr.com/417c177820b5db0e90c8e5546c79a33f/tumblr_nhl1jjU1gQ1qzbjuko4_1280.jpg"
+    # href=["']([^"']+.media.tumblr.com/[^"']+)["']
+    photoset_image_link_regex = """href=["']([^"']+.media.tumblr.com/[^"']+)["']"""
+    photoset_image_links = re.findall(photoset_image_link_regex, photoset_html, re.IGNORECASE|re.DOTALL)
+
+    # Find full link and thumbnail link
+    # [ ("FULL_LINK", "THUMB_LINK"), ("FULL_LINK", "THUMB_LINK")...]
+    # <div\s+class="photoset.+?href=["']([^"']+.media.tumblr.com/[^"']+)["'].+?src=["']([^"']+)["'].+?</div>
+    photoset_image_pairs_regex = """<div\s+class="photoset.+?href=["']([^"']+.media.tumblr.com/[^"']+)["'].+?src=["']([^"']+)["'].+?</div>"""
+    photoset_image_pairs = re.findall(photoset_image_pairs_regex, photoset_html, re.IGNORECASE|re.DOTALL)
 
 
 
